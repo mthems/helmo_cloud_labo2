@@ -12,20 +12,20 @@ jobs:
 
     runs-on: ubuntu-latest
 
+     
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-      
-      
+    - uses: actions/checkout@master
+
+    - run: docker build . -t contoso.azurecr.io/k8sdemo:${{ github.sha }}
+
     - uses: Azure/container-scan@v0
       with:
-        image-name: ${{ env.CONTAINER_REGISTRY }}/k8sdemo:${{ github.sha }}
-    
+        image-name: contoso.azurecr.io/k8sdemo:${{ github.sha }}
+
     - uses: Azure/docker-login@v1
       with:
-        login-server: ${{ env.CONTAINER_REGISTRY }}
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
     
-    - run: docker push ${{ env.CONTAINER_REGISTRY }}/k8sdemo:${{ github.sha }}
+    - run: docker push contoso.azurecr.io/k8sdemo:${{ github.sha }}
