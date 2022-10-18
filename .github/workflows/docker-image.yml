@@ -24,3 +24,4 @@ jobs:
         image-name: my-image-name:Labo2
         severity-threshold: CRITICAL
         run-quality-checks: true
+      continue-on-error: true
