@@ -16,3 +16,11 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      
+      
+    - name: Scan image
+      uses: Azure/container-scan@v0
+      with:
+        image-name: my-image-name:$(date +%s)
+        severity-threshold: CRITICAL
+        run-quality-checks: true
