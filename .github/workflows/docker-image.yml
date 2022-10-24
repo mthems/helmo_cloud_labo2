@@ -25,3 +25,7 @@ jobs:
         severity-threshold: CRITICAL
         run-quality-checks: true
       continue-on-error: true
+      
+    - name: Push image
+      run: |
+        docker push ${{ secrets.ACR_LOGIN_SERVER }}/spring-petclinic:${{ github.run_number }}
